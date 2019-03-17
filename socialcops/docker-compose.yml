@@ -1,0 +1,45 @@
+version: "3"
+services:
+
+  web:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - '.env'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+
+  celery:
+    build:
+      context: ./api
+      dockerfile: CeleryDockerfile
+    restart: always
+    env_file:
+      - '.env'
+    user: root
+    command: celery -A app.routes.celery worker --loglevel=info
+    depends_on:
+      - redis
+
+  monitor:
+    build:
+      context: ./api
+      dockerfile: CeleryDockerfile
+    restart: always
+    env_file:
+      - '.env'
+    ports:
+      - "5555:5555"
+    entrypoint: flower
+    command: -A app.routes.celery --port=5555 --broker=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    restart: always
+    command: redis-server

@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - SocialCops</title>
+        {% else %}
+        <title>Welcome to SocialCops: Task Manager</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>Task Manager: <a href="{{ url_for('upload_file') }}">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

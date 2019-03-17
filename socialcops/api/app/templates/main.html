@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action = "{{ url_for('uploader') }}" method = "POST"
+   enctype = "multipart/form-data">
+   Upload CSV File: <input type = "file" name = "file" /><br><br>
+   <input type = "submit"/>
+</form>
+<hr>
+<form action = "{{ url_for('downloader') }}" method="GET">
+  From: <input type="date" name="from" /><br><br>
+  Till: <input type="date" name="till" /><br><br>
+  <input type="submit"/>
+</form>
+{% endblock %}
